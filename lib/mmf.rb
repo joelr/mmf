@@ -39,6 +39,11 @@ class Mmf::Client
     workouts:           { method: :get,  endpoint: 'v7.0/workout', required: [:user], defaults: { user: :me } },
     workout:            { method: :get,  endpoint: 'v7.0/workout/%{workout_id}' },
 
+    # webhook resources
+    add_webhook:        { method: :post, endpoint: 'v7.0/webhook', required: [:callback_url, :shared_secret, :subscription_type] },
+    disable_webhook:    { method: :put,  endpoint: 'v7.0/webhook/%{webhook_id}', defaults: { status: 'disabled' } },
+    webhooks:           { method: :get,  endpoint: 'v7.0/webhook' },
+
     # course resources
     search_courses:     { method: :get,  endpoint: 'v7.0/course' },
     course:             { method: :get,  endpoint: 'v7.0/course/%{course_id}' },
@@ -105,7 +110,15 @@ private
   def request(method, endpoint, params)
     uri  = "#{ROOT_URI}/#{endpoint}"
     opts = { params: params, headers: {'Api-Key' => client_key} }
-    resp = @client.send(method, uri, opts)
+    if method == :post
+      opts.delete :params
+      resp = @client.send(method, uri, {body: params.to_json, headers: {
+        'Api-Key' => client_key,
+        'Content-Type' => 'application/json',
+      }})
+    else
+      resp = @client.send(method, uri, opts)
+    end
     find_relevant_data(JSON.parse(resp.body))
   end
 
