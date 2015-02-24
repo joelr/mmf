@@ -38,6 +38,7 @@ class Mmf::Client
     add_workout:        { method: :post, endpoint: 'v7.0/workout', required: [:activity_type, :name, :start_datetime, :start_locale_timezone] },
     workouts:           { method: :get,  endpoint: 'v7.0/workout', required: [:user], defaults: { user: :me } },
     workout:            { method: :get,  endpoint: 'v7.0/workout/%{workout_id}' },
+    update_workout:     { method: :put,  endpoint: 'v7.0/workout/%{workout_id}' },
 
     # webhook resources
     add_webhook:        { method: :post, endpoint: 'v7.0/webhook', required: [:callback_url, :shared_secret, :subscription_type] },
