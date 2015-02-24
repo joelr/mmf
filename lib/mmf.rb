@@ -110,7 +110,7 @@ private
   def request(method, endpoint, params)
     uri  = "#{ROOT_URI}/#{endpoint}"
     opts = { params: params, headers: {'Api-Key' => client_key} }
-    if method == :post
+    if method == :post || method == :put
       opts.delete :params
       resp = @client.send(method, uri, {body: params.to_json, headers: {
         'Api-Key' => client_key,
