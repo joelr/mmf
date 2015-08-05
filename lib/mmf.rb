@@ -103,8 +103,6 @@ private
     check_params(name, required, params)
     begin
       request(method, interpolate(endpoint, params), params)
-    rescue OAuth2::Error => e
-      raise JSON.parse(e.message[1..-1]).pretty_inspect
     end
   end
 
