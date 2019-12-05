@@ -4,7 +4,7 @@ require 'json'
 require 'pp'
 
 class Mmf::Client
-  ROOT_URI      = ENV.fetch('MMF_API_BASE',"https://www.mapmyfitness.com/").gsub('v7.0','')
+  ROOT_URI      = ENV.fetch('MMF_API_BASE',"https://oauth2-api.mapmyapi.com/").gsub('v7.0','')
 
   VAR     = /%\{(.*?)\}/
   API_MAP = {
